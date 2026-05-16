@@ -2,7 +2,7 @@ import { GraduationCap, LogOut } from "lucide-react";
 import NavigationBar from "./Navigationbar";
 import "../css/Header.css"
 
-const Header = () => {
+const Header = ({Role}) => {
     return (
         <aside className="sidebar">
             <div className="header-top">
@@ -15,7 +15,7 @@ const Header = () => {
                 </div>
             </div>
 
-            <NavigationBar />
+            <NavigationBar Role= {Role} />
 
             <div className="header-bot">
                 <div className="header-user-info-container">
@@ -27,7 +27,7 @@ const Header = () => {
                 </div>
 
                 <div className="logout-container">
-                    <LogOut />
+                    <LogOut  />
                     <div className="Logout-text">Logout</div>
                 </div>
             </div>
