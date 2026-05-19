@@ -17,6 +17,7 @@ body {
   display: flex;
   min-height: 100vh;
   background: #F1F0F9;
+  width: 100vw;
 }
 
 .main-content {
@@ -25,4 +26,7 @@ body {
   padding: 40px;
   background: #F1F0F9;
   min-height: 100vh;
+}
+#root{
+  width: 100vw;
 }

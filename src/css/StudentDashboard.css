@@ -1,0 +1,499 @@
+/* ===== DASHBOARD LAYOUT ===== */
+.dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 2rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* ===== GREETING ===== */
+.dashboard-greeting-container h1 {
+  font-size: clamp(22px, 3vw, 32px);
+  font-weight: 800;
+  background: var(--active-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1.2;
+  margin-bottom: 6px;
+}
+
+.greeting-subText {
+  font-size: 15px;
+  color: var(--text-secondary);
+  font-weight: 400;
+}
+
+/* ===== STAT CARDS ===== */
+.stat-cards-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+}
+
+.stat-card {
+  border-radius: 16px;
+  padding: 1.25rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 100px;
+}
+
+.stat-card-left {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.stat-card-title {
+  font-size: 13px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.stat-card-value {
+  font-size: clamp(24px, 3vw, 36px);
+  font-weight: 800;
+  color: white;
+  line-height: 1;
+}
+
+.stat-card-icon {
+  width: 3rem;
+  height: 3rem;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.stat-card-icon svg {
+  width: 1.4rem;
+  height: 1.4rem;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+/* ===== DEADLINES + OVERALL PROGRESS ===== */
+.deadlines-overall-container {
+  display: grid;
+  grid-template-columns: 1fr minmax(280px, 25%);
+  gap: 1rem;
+  align-items: stretch;
+}
+
+.deadlines-card {
+  background: white;
+  border-radius: 16px;
+  padding: 1.5rem;
+  border: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+.deadlines-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.deadlines-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.view-calendar-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: color 0.15s ease;
+  text-decoration: none;
+}
+
+.view-calendar-btn:hover {
+  color: var(--purple-start);
+}
+
+.deadlines-empty {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  color: var(--text-secondary);
+  padding: 2rem 0;
+}
+
+.deadlines-empty p {
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+.deadlines-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.deadline-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  gap: 12px;
+}
+
+.deadline-item-left {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.deadline-item-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.deadline-item-meta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.deadline-course-badge {
+  background: #EEF2FF;
+  color: #4f46e5;
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* Overall Progress Card */
+.overall-progress-card {
+  background: white;
+  border-radius: 16px;
+  padding: 1.5rem;
+  border: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+.overall-progress-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.overall-progress-percentage {
+  font-size: clamp(36px, 4vw, 52px);
+  font-weight: 800;
+  color: var(--text-primary);
+  text-align: center;
+  line-height: 1;
+}
+
+.overall-progress-label {
+  font-size: 13px;
+  color: var(--text-secondary);
+  text-align: center;
+  margin-top: -8px;
+}
+
+.progress-row {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.progress-row-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.progress-bar-bg {
+  width: 100%;
+  height: 6px;
+  background: #E5E7EB;
+  border-radius: 99px;
+  overflow: hidden;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background: var(--active-gradient);
+  border-radius: 99px;
+  transition: width 0.3s ease;
+}
+
+.view-kanban-btn {
+  width: 100%;
+  padding: 12px;
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+  background: white;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  margin-top: 4px;
+  text-align: center;
+  text-decoration: none;
+  display: block;
+}
+
+.view-kanban-btn:hover {
+  background: var(--hover-bg);
+  border-color: var(--purple-start);
+  color: var(--purple-start);
+}
+
+/* ===== SECTION TITLES ===== */
+.section-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 12px;
+}
+
+/* ===== COURSE PROGRESS ===== */
+.course-progress-section {
+  background: white;
+  border-radius: 16px;
+  padding: 1.5rem;
+  border: 1px solid var(--border-color);
+}
+
+.course-progress-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+.course-progress-card {
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.course-progress-card-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.course-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  margin-top: 4px;
+}
+
+.course-code {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.course-name {
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-top: 2px;
+}
+
+.course-progress-bar-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.course-progress-bar-bg {
+  width: 100%;
+  height: 6px;
+  background: #E5E7EB;
+  border-radius: 99px;
+  overflow: hidden;
+}
+
+.course-progress-bar-fill {
+  height: 100%;
+  background: var(--active-gradient);
+  border-radius: 99px;
+}
+
+.course-percentage {
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+/* ===== RECENT ASSIGNMENTS ===== */
+.recent-assignments-section {
+  background: white;
+  border-radius: 16px;
+  padding: 1.5rem;
+  border: 1px solid var(--border-color);
+}
+
+.assignments-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.assignments-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 2rem 0;
+  color: var(--text-secondary);
+  font-size: 14px;
+}
+
+.assignment-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  gap: 12px;
+  transition: background 0.15s ease;
+}
+
+.assignment-item:hover {
+  background: var(--hover-bg);
+}
+
+.assignment-item-left {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.assignment-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.assignment-meta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.assignment-course {
+  background: #EEF2FF;
+  color: #4f46e5;
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.assignment-dot {
+  color: var(--text-secondary);
+}
+
+.assignment-due {
+  color: var(--text-secondary);
+}
+
+.assignment-status {
+  padding: 5px 14px;
+  border-radius: 99px;
+  border: 1.5px solid;
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 1024px) {
+  .stat-cards-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .deadlines-overall-container {
+    grid-template-columns: 1fr;
+  }
+
+  .course-progress-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .dashboard {
+    padding: 1rem;
+    gap: 1rem;
+  }
+
+  .stat-cards-container {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+  }
+
+  .stat-card {
+    padding: 1rem;
+    min-height: 90px;
+  }
+
+  .course-progress-container {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .assignment-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .assignment-status {
+    align-self: flex-end;
+  }
+}
+.course-card-link,
+.assignment-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}

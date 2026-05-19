@@ -17,17 +17,21 @@ import "./App.css"
 
 function App() {
 
-  const Role = "Student";
+  const User = {
+    Name: "ibrahim goja",
+    Email: "ibrahimgoja@gmail.com",
+    Role: "Student"
+  }
 
   return (
     <>
       <Router>
-        <Header Role={Role} />
+        <Header Role={User.Role} UserName={User.Name} UserEmail={User.Email} />
         <main className='main-content'>
           <Routes>
-            {Role == "Student" ? (
+            {User.Role == "Student" ? (
               <>
-                <Route path='/Student/Dashboard' element={<StudentDashboard />} />
+                <Route path='/Student/Dashboard' element={<StudentDashboard UserName = {User.Name} />} />
                 <Route path='/Student/Semesters' element={<Semesters />} />
                 <Route path='/Student/Calendar' element={<Calendar />} />
                 <Route path='/Student/KanbanBoard' element={<KanbanBoard />} />
