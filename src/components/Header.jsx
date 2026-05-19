@@ -2,7 +2,7 @@ import { GraduationCap, LogOut } from "lucide-react";
 import NavigationBar from "./Navigationbar";
 import "../css/Header.css"
 
-const Header = ({Role}) => {
+const Header = ({Role, UserName, UserEmail}) => {
     return (
         <aside className="sidebar">
             <div className="header-top">
@@ -11,7 +11,7 @@ const Header = ({Role}) => {
                 </div>
                 <div className="header-top-text">
                     <h1 className='app-name'>NextDeadLine</h1>
-                    <h2 className="header-role">Student</h2>
+                    <h2 className="header-role">{Role}</h2>
                 </div>
             </div>
 
@@ -21,8 +21,8 @@ const Header = ({Role}) => {
                 <div className="header-user-info-container">
                     <div className="user-avatar-fallback">A</div>
                     <div className="header-user-details">
-                        <div className="header-user-name">Alex Student</div>
-                        <div className="header-user-email">student@demo.com</div>
+                        <div className="header-user-name">{UserName}</div>
+                        <div className="header-user-email">{UserEmail}</div>
                     </div>
                 </div>
 
