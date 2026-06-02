@@ -10,6 +10,9 @@
   --sidebar-bg: #ffffff;
   --hover-bg: #F9FAFB;
   --border-color: #F3F4F6;
+  --weight-display: 700;
+  --weight-heading: 600;
+  --weight-label: 500;
 }
 
 body {
@@ -29,4 +32,13 @@ body {
 }
 #root{
   width: 100vw;
+}
+
+@media (max-width: 768px) {
+  .main-content {
+    margin-left: 0;
+    width: 100%;
+    padding: 1.25rem;
+    padding-top: 4.5rem;
+  }
 }
