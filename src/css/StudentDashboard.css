@@ -1,17 +1,19 @@
-/* ===== DASHBOARD LAYOUT ===== */
-.dashboard {
+/* ===== DASHBOARD LAYOUT (Figma Make) ===== */
+.dashboard,
+.figma-page {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 2rem;
   padding: 2rem;
   width: 100%;
+  min-height: 100%;
   box-sizing: border-box;
 }
 
 /* ===== GREETING ===== */
 .dashboard-greeting-container h1 {
   font-size: clamp(22px, 3vw, 32px);
-  font-weight: 800;
+  font-weight: var(--weight-display);
   background: var(--active-gradient);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -21,7 +23,7 @@
 }
 
 .greeting-subText {
-  font-size: 15px;
+  font-size: 1.05rem;
   color: var(--text-secondary);
   font-weight: 400;
 }
@@ -33,13 +35,52 @@
   gap: 1rem;
 }
 
+.instructor-stat-cards .instructor-stat-card {
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(229, 231, 235, 0.9) !important;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+}
+
+.instructor-stat-card .stat-card-title {
+  color: var(--text-secondary) !important;
+  font-size: 0.875rem;
+  font-weight: var(--weight-body);
+}
+
+.instructor-stat-card .stat-card-value {
+  font-size: 1.75rem;
+  font-weight: var(--weight-value);
+}
+
+.instructor-stat-icon {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.instructor-stat-icon svg {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
 .stat-card {
-  border-radius: 16px;
+  border-radius: 1rem;
+  border: none;
   padding: 1.25rem 1.5rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
   min-height: 100px;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
+}
+
+.stat-card:hover {
+  transform: scale(1.03);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.14);
 }
 
 .stat-card-left {
@@ -50,13 +91,13 @@
 
 .stat-card-title {
   font-size: 13px;
-  font-weight: 500;
-  color: rgba(255, 255, 255, 0.85);
+  font-weight: var(--weight-body);
+  color: rgba(255, 255, 255, 0.9);
 }
 
 .stat-card-value {
   font-size: clamp(24px, 3vw, 36px);
-  font-weight: 800;
+  font-weight: var(--weight-value);
   color: white;
   line-height: 1;
 }
@@ -64,8 +105,9 @@
 .stat-card-icon {
   width: 3rem;
   height: 3rem;
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.22);
+  backdrop-filter: blur(4px);
+  border-radius: 1rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -87,10 +129,12 @@
 }
 
 .deadlines-card {
-  background: white;
-  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(10px);
+  border-radius: 1rem;
   padding: 1.5rem;
-  border: 1px solid var(--border-color);
+  border: 1px solid rgba(229, 231, 235, 0.9);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -106,7 +150,7 @@
 
 .deadlines-title {
   font-size: 16px;
-  font-weight: 700;
+  font-weight: var(--weight-heading);
   color: var(--text-primary);
 }
 
@@ -115,7 +159,7 @@
   align-items: center;
   gap: 6px;
   font-size: 14px;
-  font-weight: 600;
+  font-weight: var(--weight-label);
   color: var(--text-secondary);
   cursor: pointer;
   transition: color 0.15s ease;
@@ -166,7 +210,7 @@
 
 .deadline-item-title {
   font-size: 15px;
-  font-weight: 700;
+  font-weight: var(--weight-heading);
   color: var(--text-primary);
 }
 
@@ -184,15 +228,17 @@
   padding: 2px 8px;
   border-radius: 6px;
   font-size: 12px;
-  font-weight: 600;
+  font-weight: var(--weight-label);
 }
 
 /* Overall Progress Card */
 .overall-progress-card {
-  background: white;
-  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(10px);
+  border-radius: 1rem;
   padding: 1.5rem;
-  border: 1px solid var(--border-color);
+  border: 1px solid rgba(229, 231, 235, 0.9);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -202,13 +248,13 @@
 
 .overall-progress-title {
   font-size: 16px;
-  font-weight: 700;
+  font-weight: var(--weight-heading);
   color: var(--text-primary);
 }
 
 .overall-progress-percentage {
   font-size: clamp(36px, 4vw, 52px);
-  font-weight: 800;
+  font-weight: var(--weight-display);
   color: var(--text-primary);
   text-align: center;
   line-height: 1;
@@ -257,7 +303,7 @@
   border: 1px solid var(--border-color);
   background: white;
   font-size: 14px;
-  font-weight: 700;
+  font-weight: var(--weight-heading);
   color: var(--text-primary);
   cursor: pointer;
   transition: all 0.15s ease;
@@ -277,17 +323,19 @@
 /* ===== SECTION TITLES ===== */
 .section-title {
   font-size: 16px;
-  font-weight: 700;
+  font-weight: var(--weight-heading);
   color: var(--text-primary);
   margin-bottom: 12px;
 }
 
 /* ===== COURSE PROGRESS ===== */
 .course-progress-section {
-  background: white;
-  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(10px);
+  border-radius: 1rem;
   padding: 1.5rem;
-  border: 1px solid var(--border-color);
+  border: 1px solid rgba(229, 231, 235, 0.9);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
 }
 
 .course-progress-container {
@@ -321,7 +369,7 @@
 
 .course-code {
   font-size: 15px;
-  font-weight: 700;
+  font-weight: var(--weight-heading);
   color: var(--text-primary);
 }
 
@@ -360,10 +408,12 @@
 
 /* ===== RECENT ASSIGNMENTS ===== */
 .recent-assignments-section {
-  background: white;
-  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(10px);
+  border-radius: 1rem;
   padding: 1.5rem;
-  border: 1px solid var(--border-color);
+  border: 1px solid rgba(229, 231, 235, 0.9);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
 }
 
 .assignments-list {
@@ -406,7 +456,7 @@
 
 .assignment-title {
   font-size: 15px;
-  font-weight: 700;
+  font-weight: var(--weight-heading);
   color: var(--text-primary);
 }
 
@@ -424,7 +474,7 @@
   padding: 2px 8px;
   border-radius: 6px;
   font-size: 12px;
-  font-weight: 600;
+  font-weight: var(--weight-label);
 }
 
 .assignment-dot {
@@ -440,9 +490,47 @@
   border-radius: 99px;
   border: 1.5px solid;
   font-size: 13px;
-  font-weight: 600;
+  font-weight: var(--weight-label);
   white-space: nowrap;
   flex-shrink: 0;
+  align-self: center;
+}
+
+.assignment-date-badge {
+  padding: 5px 12px;
+  border-radius: 99px;
+  border: 1.5px solid var(--border-color);
+  font-size: 12px;
+  font-weight: var(--weight-label);
+  color: var(--text-secondary);
+  background: #f9fafb;
+  white-space: nowrap;
+  flex-shrink: 0;
+  align-self: center;
+}
+
+.deadline-link,
+.assignment-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+.deadline-link:hover .deadline-item,
+.assignment-link:hover .assignment-item {
+  background: var(--hover-bg);
+  border-color: #d1d5db;
+}
+
+.course-card-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+.course-card-link:hover .course-progress-card {
+  background: var(--hover-bg);
+  border-color: #d1d5db;
 }
 
 /* ===== RESPONSIVE ===== */
@@ -461,9 +549,11 @@
 }
 
 @media (max-width: 768px) {
-  .dashboard {
+  .dashboard,
+  .figma-page {
     padding: 1rem;
-    gap: 1rem;
+    padding-top: 0;
+    gap: 1.25rem;
   }
 
   .stat-cards-container {
@@ -479,21 +569,36 @@
   .course-progress-container {
     grid-template-columns: 1fr;
   }
+
+  .deadlines-card-header {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .assignment-item,
+  .deadline-item {
+    align-items: flex-start;
+    gap: 10px;
+  }
 }
 
 @media (max-width: 480px) {
-  .assignment-item {
-    flex-direction: column;
-    align-items: flex-start;
+  .stat-cards-container {
+    grid-template-columns: 1fr;
   }
 
-  .assignment-status {
-    align-self: flex-end;
+  .assignment-item {
+    flex-direction: column;
+    align-items: stretch;
   }
-}
-.course-card-link,
-.assignment-link {
-  text-decoration: none;
-  color: inherit;
-  display: block;
+
+  .assignment-item .status-badge,
+  .assignment-date-badge {
+    align-self: flex-start;
+  }
+
+  .deadline-item-meta,
+  .assignment-meta {
+    flex-wrap: wrap;
+  }
 }
