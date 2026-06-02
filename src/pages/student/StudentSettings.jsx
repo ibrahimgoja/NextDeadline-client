@@ -38,7 +38,7 @@ export default function StudentSettings({ user, onNotify }) {
               <Mail size={16} className="me-2" />
               Email
             </Form.Label>
-            <Form.Control className="settings-input" value={user?.email} disabled />
+            <Form.Control className="settings-input" value={user.email} disabled />
           </Form.Group>
 
           <Form.Group className="mb-4">
@@ -47,7 +47,7 @@ export default function StudentSettings({ user, onNotify }) {
               Role
             </Form.Label>
             <div>
-              <span className={`role-badge role-badge-${user?.role}`}>{user?.role}</span>
+              <span className={`role-badge role-badge-${user.role}`}>{user.role}</span>
             </div>
           </Form.Group>
 

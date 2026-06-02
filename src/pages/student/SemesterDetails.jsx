@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { Button, Modal, Form } from 'react-bootstrap';
 import { matchId } from '../../components/dateUtils';
@@ -8,16 +8,51 @@ import '../../css/Semesters.css';
 export default function SemesterDetails({ user, onNotify }) {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [semesters] = useState([]);
-  const [courses] = useState([]);
-  const [enrollments] = useState([]);
-  const [assignments] = useState([]);
+  const [semesters, setSemesters] = useState([]);
+  const [courses, setCourses] = useState([]);
+  const [enrollments, setEnrollments] = useState([]);
+  const [assignments, setAssignments] = useState([]);
   const [open, setOpen] = useState(false);
   const [selectedCourse, setSelectedCourse] = useState('');
 
+  const fetchData = async () => {
+    const res = await fetch('/api/data', {
+      headers: { 'X-User-Id': String(user.id) },
+    });
+    const data = await res.json();
+    setSemesters(data.semesters);
+    setCourses(data.courses);
+    setEnrollments(data.enrollments);
+    setAssignments(data.assignments);
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const enrollInCourse = async (courseId, semesterId) => {
+    await fetch('/api/enrollments', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-User-Id': String(user.id),
+      },
+      body: JSON.stringify({ courseId, semesterId }),
+    });
+    fetchData();
+  };
+
+  const unenrollFromCourse = async (courseId, semesterId) => {
+    await fetch(`/api/enrollments/course/${courseId}/semester/${semesterId}`, {
+      method: 'DELETE',
+      headers: { 'X-User-Id': String(user.id) },
+    });
+    fetchData();
+  };
+
   const semester = semesters.find((s) => matchId(s.id, id));
   const semesterEnrollments = enrollments.filter(
-    (e) => matchId(e.studentId, user?.id) && matchId(e.semesterId, id),
+    (e) => matchId(e.studentId, user.id) && matchId(e.semesterId, id),
   );
   const enrolledIds = semesterEnrollments.map((e) => e.courseId);
   const availableCourses = courses.filter((c) => !enrolledIds.some((cid) => matchId(cid, c.id)));
@@ -32,8 +67,9 @@ export default function SemesterDetails({ user, onNotify }) {
     );
   }
 
-  const handleEnroll = () => {
+  const handleEnroll = async () => {
     if (!selectedCourse) return;
+    await enrollInCourse(selectedCourse, id);
     setOpen(false);
     setSelectedCourse('');
     onNotify('Enrolled in course successfully');
@@ -86,8 +122,9 @@ export default function SemesterDetails({ user, onNotify }) {
                 key={course.id}
                 course={course}
                 assignmentCount={count}
-                onUnenroll={() => {
+                onUnenroll={async () => {
                   if (confirm('Unenroll from this course?')) {
+                    await unenrollFromCourse(course.id, id);
                     onNotify('Unenrolled');
                   }
                 }}

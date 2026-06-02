@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Route, BrowserRouter as Router, Routes, Navigate } from 'react-router-dom';
 
 import AppLayout from './components/AppLayout';
@@ -20,26 +21,48 @@ import './css/Reset.css';
 import './App.css';
 
 function App() {
-  const user = null;
-  const onLogout = () => {};
-  const onNotify = () => {};
+  const [user, setUser] = useState(() => {
+    const savedUser = localStorage.getItem('currentUser');
+    return savedUser ? JSON.parse(savedUser) : null;
+  });
+  const [notice, setNotice] = useState(null);
+
+  const handleLogin = (userData) => {
+    setUser(userData);
+    localStorage.setItem('currentUser', JSON.stringify(userData));
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('currentUser');
+    setUser(null);
+  };
+
+  const onNotify = (message) => {
+    setNotice(message);
+    setTimeout(() => setNotice(null), 3000);
+  };
 
   return (
     <Router>
+      {notice && (
+        <div className="app-toast app-toast-success" role="status">
+          {notice}
+        </div>
+      )}
       <Routes>
         <Route path="/" element={<Navigate to="/dashboard" replace />} />
         <Route
           path="/login"
-          element={user ? <Navigate to="/dashboard" replace /> : <Login onLogin={() => {}} />}
+          element={user ? <Navigate to="/dashboard" replace /> : <Login onLogin={handleLogin} />}
         />
         <Route
           path="/register"
-          element={user ? <Navigate to="/dashboard" replace /> : <Register onLogin={() => {}} />}
+          element={user ? <Navigate to="/dashboard" replace /> : <Register onLogin={handleLogin} />}
         />
         <Route
           element={
             user ? (
-              <AppLayout user={user} onLogout={onLogout} />
+              <AppLayout user={user} onLogout={handleLogout} />
             ) : (
               <Navigate to="/login" replace />
             )

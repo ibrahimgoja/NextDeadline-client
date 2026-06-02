@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Button, Badge } from 'react-bootstrap';
 import { formatDate, isPast, isValid, matchId } from '../../components/dateUtils';
@@ -6,32 +6,43 @@ import { formatDate, isPast, isValid, matchId } from '../../components/dateUtils
 const STATUSES = ['To Do', 'In Progress', 'Completed'];
 
 export default function KanbanBoard({ user, onNotify }) {
-  const [assignments] = useState([]);
+  const [assignments, setAssignments] = useState([]);
   const [assignmentProgress, setAssignmentProgress] = useState([]);
-  const [courses] = useState([]);
-  const [enrollments] = useState([]);
+  const [courses, setCourses] = useState([]);
+  const [enrollments, setEnrollments] = useState([]);
   const [draggedId, setDraggedId] = useState(null);
   const [dragOverStatus, setDragOverStatus] = useState(null);
 
-  const updateAssignmentProgress = (assignmentId, status) => {
-    setAssignmentProgress((prev) => {
-      const existing = prev.find(
-        (ap) => matchId(ap.assignmentId, assignmentId) && matchId(ap.studentId, user?.id),
-      );
-      if (existing) {
-        return prev.map((ap) =>
-          matchId(ap.assignmentId, assignmentId) && matchId(ap.studentId, user?.id)
-            ? { ...ap, status }
-            : ap,
-        );
-      }
-      return [...prev, { assignmentId, studentId: user?.id, status }];
+  const fetchData = async () => {
+    const res = await fetch('/api/data', {
+      headers: { 'X-User-Id': String(user.id) },
     });
+    const data = await res.json();
+    setAssignments(data.assignments);
+    setAssignmentProgress(data.assignmentProgress);
+    setCourses(data.courses);
+    setEnrollments(data.enrollments);
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const updateAssignmentProgress = async (assignmentId, status) => {
+    await fetch(`/api/progress/${assignmentId}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-User-Id': String(user.id),
+      },
+      body: JSON.stringify({ status }),
+    });
+    fetchData();
     onNotify('Status updated');
   };
 
   const enrolledCourses = enrollments
-    .filter((e) => matchId(e.studentId, user?.id))
+    .filter((e) => matchId(e.studentId, user.id))
     .map((e) => courses.find((c) => matchId(c.id, e.courseId)))
     .filter(Boolean);
   const courseIds = enrolledCourses.map((c) => c.id);
@@ -39,12 +50,12 @@ export default function KanbanBoard({ user, onNotify }) {
 
   const grouped = { 'To Do': [], 'In Progress': [], 'Completed': [] };
   myAssignments.forEach((a) => {
-    const status = assignmentProgress.find((ap) => matchId(ap.assignmentId, a.id) && matchId(ap.studentId, user?.id))?.status || 'To Do';
+    const status = assignmentProgress.find((ap) => matchId(ap.assignmentId, a.id) && matchId(ap.studentId, user.id))?.status || 'To Do';
     grouped[status].push(a);
   });
 
   const getStatus = (aId) =>
-    assignmentProgress.find((ap) => matchId(ap.assignmentId, aId) && matchId(ap.studentId, user?.id))?.status || 'To Do';
+    assignmentProgress.find((ap) => matchId(ap.assignmentId, aId) && matchId(ap.studentId, user.id))?.status || 'To Do';
 
   const handleDrop = (e, newStatus) => {
     e.preventDefault();

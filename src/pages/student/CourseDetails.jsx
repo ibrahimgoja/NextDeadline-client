@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { Button, Modal, Form } from 'react-bootstrap';
 import { matchId, formatDate } from '../../components/dateUtils';
@@ -12,7 +12,7 @@ export default function CourseDetails({ user, onNotify }) {
   const [assignments, setAssignments] = useState([]);
   const [slides, setSlides] = useState([]);
   const [tasks, setTasks] = useState([]);
-  const [assignmentProgress] = useState([]);
+  const [assignmentProgress, setAssignmentProgress] = useState([]);
   const [taskProgress, setTaskProgress] = useState([]);
   const [tab, setTab] = useState('assignments');
   const [assignmentOpen, setAssignmentOpen] = useState(false);
@@ -30,38 +30,73 @@ export default function CourseDetails({ user, onNotify }) {
   const [tTitle, setTTitle] = useState('');
   const [tDesc, setTDesc] = useState('');
 
-  const addAssignment = (assignment) => {
-    setAssignments((prev) => [...prev, { ...assignment, id: Date.now(), createdAt: new Date().toISOString() }]);
-  };
-
-  const updateAssignment = (id, updates) => {
-    setAssignments((prev) => prev.map((a) => (matchId(a.id, id) ? { ...a, ...updates } : a)));
-  };
-
-  const addSlide = (slide) => {
-    setSlides((prev) => [...prev, { ...slide, id: Date.now() }]);
-  };
-
-  const deleteSlide = (id) => {
-    setSlides((prev) => prev.filter((s) => !matchId(s.id, id)));
-  };
-
-  const addTask = (task) => {
-    setTasks((prev) => [...prev, { ...task, id: Date.now() }]);
-  };
-
-  const toggleTaskCompletion = (taskId) => {
-    setTaskProgress((prev) => {
-      const existing = prev.find((tp) => matchId(tp.taskId, taskId) && matchId(tp.studentId, user?.id));
-      if (existing) {
-        return prev.map((tp) =>
-          matchId(tp.taskId, taskId) && matchId(tp.studentId, user?.id)
-            ? { ...tp, completed: !tp.completed }
-            : tp,
-        );
-      }
-      return [...prev, { taskId, studentId: user?.id, completed: true }];
+  const fetchData = async () => {
+    const res = await fetch('/api/data', {
+      headers: { 'X-User-Id': String(user.id) },
     });
+    const data = await res.json();
+    setCourses(data.courses);
+    setAssignments(data.assignments);
+    setSlides(data.slides);
+    setTasks(data.tasks);
+    setAssignmentProgress(data.assignmentProgress);
+    setTaskProgress(data.taskProgress);
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const addAssignment = async (assignment) => {
+    await fetch('/api/assignments', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-User-Id': String(user.id) },
+      body: JSON.stringify(assignment),
+    });
+    fetchData();
+  };
+
+  const updateAssignment = async (id, updates) => {
+    await fetch(`/api/assignments/${id}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json', 'X-User-Id': String(user.id) },
+      body: JSON.stringify(updates),
+    });
+    fetchData();
+  };
+
+  const addSlide = async (slide) => {
+    await fetch('/api/materials', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-User-Id': String(user.id) },
+      body: JSON.stringify(slide),
+    });
+    fetchData();
+  };
+
+  const deleteSlide = async (id) => {
+    await fetch(`/api/materials/${id}`, {
+      method: 'DELETE',
+      headers: { 'X-User-Id': String(user.id) },
+    });
+    fetchData();
+  };
+
+  const addTask = async (task) => {
+    await fetch('/api/tasks', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-User-Id': String(user.id) },
+      body: JSON.stringify(task),
+    });
+    fetchData();
+  };
+
+  const toggleTaskCompletion = async (taskId) => {
+    await fetch(`/api/tasks/${taskId}/toggle`, {
+      method: 'PATCH',
+      headers: { 'X-User-Id': String(user.id) },
+    });
+    fetchData();
   };
 
   const course = courses.find((c) => c.code === courseKey || matchId(c.id, courseKey));
@@ -75,7 +110,7 @@ export default function CourseDetails({ user, onNotify }) {
     );
   }
 
-  const isInstructor = user?.role === 'instructor' && matchId(course.instructorId, user?.id);
+  const isInstructor = user.role === 'instructor' && matchId(course.instructorId, user.id);
   const courseAssignments = assignments
     .filter((a) => matchId(a.courseId, course.id))
     .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
@@ -147,7 +182,7 @@ export default function CourseDetails({ user, onNotify }) {
             <div className="empty-state"><div className="empty-icon">📄</div><p>No assignments yet</p></div>
           ) : (
             courseAssignments.map((a) => {
-              const progress = assignmentProgress.find((ap) => matchId(ap.assignmentId, a.id) && matchId(ap.studentId, user?.id));
+              const progress = assignmentProgress.find((ap) => matchId(ap.assignmentId, a.id) && matchId(ap.studentId, user.id));
               const status = progress?.status || 'To Do';
               return (
                 <Link key={a.id} to={`/assignments/${a.id}`} className="assignment-list-link">
@@ -249,7 +284,7 @@ export default function CourseDetails({ user, onNotify }) {
           ) : (
             courseTasks.map((task) => {
               const assignment = assignments.find((a) => matchId(a.id, task.assignmentId));
-              const done = taskProgress.find((tp) => matchId(tp.taskId, task.id) && matchId(tp.studentId, user?.id))?.completed;
+              const done = taskProgress.find((tp) => matchId(tp.taskId, task.id) && matchId(tp.studentId, user.id))?.completed;
               return (
                 <div className="task-row" key={task.id}>
                   <Form.Check type="checkbox" checked={!!done} onChange={() => toggleTaskCompletion(task.id)} />

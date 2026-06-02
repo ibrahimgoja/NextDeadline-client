@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { BookOpen, CheckCircle2, Clock, AlertTriangle } from 'lucide-react';
 import { isAfter, isBefore, addDays, matchId } from '../../components/dateUtils';
 import DashboardGreeting from '../../components/DashboardGreeting';
@@ -10,12 +10,29 @@ import RecentAssignments from '../../components/RecentAssignments';
 import '../../css/StudentDashboard.css';
 
 export default function StudentDashboard({ user }) {
-  const [courses] = useState([]);
-  const [assignments] = useState([]);
-  const [assignmentProgress] = useState([]);
-  const [enrollments] = useState([]);
-  const [tasks] = useState([]);
-  const [taskProgress] = useState([]);
+  const [courses, setCourses] = useState([]);
+  const [assignments, setAssignments] = useState([]);
+  const [assignmentProgress, setAssignmentProgress] = useState([]);
+  const [enrollments, setEnrollments] = useState([]);
+  const [tasks, setTasks] = useState([]);
+  const [taskProgress, setTaskProgress] = useState([]);
+
+  const fetchData = async () => {
+    const res = await fetch('/api/data', {
+      headers: { 'X-User-Id': String(user.id) },
+    });
+    const data = await res.json();
+    setCourses(data.courses);
+    setAssignments(data.assignments);
+    setAssignmentProgress(data.assignmentProgress);
+    setEnrollments(data.enrollments);
+    setTasks(data.tasks);
+    setTaskProgress(data.taskProgress);
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   const {
     statCards,
@@ -29,7 +46,7 @@ export default function StudentDashboard({ user }) {
     recentAssignments,
   } = useMemo(() => {
     const enrolledCourses = enrollments
-      .filter((e) => matchId(e.studentId, user?.id))
+      .filter((e) => matchId(e.studentId, user.id))
       .map((e) => courses.find((c) => matchId(c.id, e.courseId)))
       .filter(Boolean);
 
@@ -38,7 +55,7 @@ export default function StudentDashboard({ user }) {
 
     const assignmentStatuses = myAssignments.map((a) => ({
       assignment: a,
-      status: assignmentProgress.find((ap) => matchId(ap.assignmentId, a.id) && matchId(ap.studentId, user?.id))?.status || 'To Do',
+      status: assignmentProgress.find((ap) => matchId(ap.assignmentId, a.id) && matchId(ap.studentId, user.id))?.status || 'To Do',
       course: courses.find((c) => matchId(c.id, a.courseId)),
     }));
 
@@ -50,7 +67,7 @@ export default function StudentDashboard({ user }) {
     );
     const allTasksList = tasks.filter((t) => myAssignments.some((a) => matchId(a.id, t.assignmentId)));
     const completedTasksCount = allTasksList.filter((t) =>
-      taskProgress.some((tp) => matchId(tp.taskId, t.id) && matchId(tp.studentId, user?.id) && tp.completed),
+      taskProgress.some((tp) => matchId(tp.taskId, t.id) && matchId(tp.studentId, user.id) && tp.completed),
     ).length;
     const completionRateValue = totalCount > 0 ? Math.round((completedCount / totalCount) * 100) : 0;
 
@@ -80,7 +97,7 @@ export default function StudentDashboard({ user }) {
 
   return (
     <div className="dashboard figma-page">
-      <DashboardGreeting name={user?.name} />
+      <DashboardGreeting name={user.name} />
       <StatCards statCards={statCards} />
       <div className="deadlines-overall-container">
         <UpcomingDeadlines items={upcomingDeadlines} />
