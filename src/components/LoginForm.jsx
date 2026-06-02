@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { Form, Button, Alert } from 'react-bootstrap';
 import { AlertCircle } from 'lucide-react';
 
-export default function LoginForm() {
+export default function LoginForm({ onLogin }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -26,23 +26,11 @@ export default function LoginForm() {
       )}
       <Form.Group>
         <Form.Label>Email</Form.Label>
-        <Form.Control
-          type="email"
-          placeholder="student@university.edu"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
+        <Form.Control type="email" placeholder="student@university.edu" value={email} onChange={(e) => setEmail(e.target.value)} required />
       </Form.Group>
       <Form.Group>
         <Form.Label>Password</Form.Label>
-        <Form.Control
-          type="password"
-          placeholder="••••••••"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
+        <Form.Control type="password" placeholder="••••••••" value={password} onChange={(e) => setPassword(e.target.value)} required />
       </Form.Group>
       <Button type="submit" className="nd-btn-primary w-100">
         Sign In

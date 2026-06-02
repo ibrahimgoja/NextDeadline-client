@@ -4,7 +4,7 @@ import { Form, Button, Alert } from 'react-bootstrap';
 import { AlertCircle } from 'lucide-react';
 import RoleSelector from './RoleSelector';
 
-export default function RegisterForm() {
+export default function RegisterForm({ onLogin }) {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -38,13 +38,7 @@ export default function RegisterForm() {
       </Form.Group>
       <Form.Group>
         <Form.Label>Email</Form.Label>
-        <Form.Control
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          placeholder="student@university.edu"
-          required
-        />
+        <Form.Control type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="student@university.edu" required />
       </Form.Group>
       <Form.Group>
         <Form.Label>Password</Form.Label>
@@ -52,12 +46,7 @@ export default function RegisterForm() {
       </Form.Group>
       <Form.Group>
         <Form.Label>Confirm Password</Form.Label>
-        <Form.Control
-          type="password"
-          value={confirmPassword}
-          onChange={(e) => setConfirmPassword(e.target.value)}
-          required
-        />
+        <Form.Control type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} required />
       </Form.Group>
       <RoleSelector role={role} setRole={setRole} />
       <Button type="submit" className="nd-btn-primary w-100">

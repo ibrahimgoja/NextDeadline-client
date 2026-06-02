@@ -1,73 +1,94 @@
-import { Route, BrowserRouter as Router, Routes } from 'react-router-dom'
-import Header from './components/Header'
+import { Route, BrowserRouter as Router, Routes, Navigate } from 'react-router-dom';
 
-import Login from './pages/Login'
-import Register from './pages/Register'
+import AppLayout from './components/AppLayout';
 
-import StudentDashboard from "./pages/student/StudentDashboard"
-import Semesters from "./pages/student/Semesters"
-import Calendar from "./pages/student/Calendar"
-import KanbanBoard from "./pages/student/KanbanBoard"
-import StudentSettings from "./pages/student/StudentSettings"
+import Login from './pages/Login';
+import Register from './pages/Register';
 
-import InstructorDashBoard from "./pages/instructor/InstructorDashboard"
-import Courses from "./pages/instructor/Courses"
-import Students from "./pages/instructor/Students"
-import Grades from "./pages/instructor/Grades"
-import InstructorSettings from "./pages/instructor/InstructorSettings"
-import "./css/Reset.css"
-import "./App.css"
+import StudentDashboard from './pages/student/StudentDashboard';
+import InstructorDashboard from './pages/instructor/InstructorDashboard';
+import Semesters from './pages/student/Semesters';
+import Calendar from './pages/student/Calendar';
+import KanbanBoard from './pages/student/KanbanBoard';
+import StudentSettings from './pages/student/StudentSettings';
+import Courses from './pages/instructor/Courses';
+
+import './css/Reset.css';
+import './App.css';
 
 function App() {
-
-  const User = {
-    Name: "ibrahim goja",
-    Email: "ibrahimgoja@gmail.com",
-    Role: "Student"
-  }
+  const user = null;
+  const onLogout = () => {};
+  const onNotify = () => {};
 
   return (
-    <>
-      <Router>
-        <Routes>
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
+    <Router>
+      <Routes>
+        <Route path="/" element={<Navigate to="/dashboard" replace />} />
+        <Route
+          path="/login"
+          element={user ? <Navigate to="/dashboard" replace /> : <Login onLogin={() => {}} />}
+        />
+        <Route
+          path="/register"
+          element={user ? <Navigate to="/dashboard" replace /> : <Register onLogin={() => {}} />}
+        />
+        <Route
+          element={
+            user ? (
+              <AppLayout user={user} onLogout={onLogout} />
+            ) : (
+              <Navigate to="/login" replace />
+            )
+          }
+        >
           <Route
-            path="*"
+            path="dashboard"
             element={
-              <>
-                <Header Role={User.Role} UserName={User.Name} UserEmail={User.Email} />
-                <main className='main-content'>
-                  <Routes>
-                    {User.Role == "Student" ? (
-                      <>
-                        <Route path='/Student/Dashboard' element={<StudentDashboard UserName = {User.Name} />} />
-                        <Route path='/Student/Semesters' element={<Semesters />} />
-                        <Route path='/Student/Calendar' element={<Calendar />} />
-                        <Route path='/Student/KanbanBoard' element={<KanbanBoard />} />
-                        <Route path='/Student/Settings' element={<StudentSettings />} />
-                      </>
-                    ) : (
-                      <>
-                        <Route path='/Instructor/Dashboard' element={<InstructorDashBoard />} />
-                        <Route path="/Instructor/Courses" element={<Courses />} />
-                        <Route path="/Instructor/Students" element={<Students />} />
-                        <Route path="/Instructor/Grades" element={<Grades />} />
-                        <Route path="/Instructor/Settings" element={<InstructorSettings />} />
-                      </>
-                    )}
-                  </Routes>
-                </main>
-              </>
+              user?.role === 'instructor' ? (
+                <InstructorDashboard user={user} />
+              ) : (
+                <StudentDashboard user={user} />
+              )
             }
           />
-        </Routes>
-      </Router>
-
-
-    </>
-  )
+          <Route
+            path="semesters"
+            element={
+              user?.role === 'student' ? (
+                <Semesters user={user} onNotify={onNotify} />
+              ) : (
+                <Navigate to="/dashboard" replace />
+              )
+            }
+          />
+          <Route path="calendar" element={<Calendar user={user} />} />
+          <Route
+            path="kanban"
+            element={
+              user?.role === 'student' ? (
+                <KanbanBoard user={user} onNotify={onNotify} />
+              ) : (
+                <Navigate to="/dashboard" replace />
+              )
+            }
+          />
+          <Route path="settings" element={<StudentSettings user={user} onNotify={onNotify} />} />
+          <Route
+            path="courses"
+            element={
+              user?.role === 'instructor' ? (
+                <Courses user={user} onNotify={onNotify} />
+              ) : (
+                <Navigate to="/dashboard" replace />
+              )
+            }
+          />
+          <Route path="*" element={<Navigate to="/dashboard" replace />} />
+        </Route>
+      </Routes>
+    </Router>
+  );
 }
 
-
-export default App
+export default App;

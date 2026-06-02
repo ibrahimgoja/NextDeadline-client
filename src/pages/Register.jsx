@@ -3,7 +3,7 @@ import { GraduationCap } from 'lucide-react';
 import RegisterForm from '../components/RegisterForm';
 import '../css/Auth.css';
 
-export default function Register() {
+export default function Register({ onLogin }) {
   return (
     <div className="auth-page auth-page-register">
       <Card className="auth-card">
@@ -15,7 +15,7 @@ export default function Register() {
           <p className="auth-subtitle">Join the assignment tracker platform</p>
         </div>
         <Card.Body className="auth-body">
-          <RegisterForm />
+          <RegisterForm onLogin={onLogin} />
         </Card.Body>
       </Card>
     </div>

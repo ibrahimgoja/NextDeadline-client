@@ -3,7 +3,7 @@ import { GraduationCap } from 'lucide-react';
 import LoginForm from '../components/LoginForm';
 import '../css/Auth.css';
 
-export default function Login() {
+export default function Login({ onLogin }) {
   return (
     <div className="auth-page">
       <Card className="auth-card">
@@ -11,11 +11,11 @@ export default function Login() {
           <div className="auth-logo">
             <GraduationCap />
           </div>
-          <h1 className="auth-title">Welcome Back!</h1>
+          <h1 className="auth-title">Welcome Back! 🎓</h1>
           <p className="auth-subtitle">Sign in to your account to continue learning</p>
         </div>
         <Card.Body className="auth-body">
-          <LoginForm />
+          <LoginForm onLogin={onLogin} />
         </Card.Body>
       </Card>
     </div>
