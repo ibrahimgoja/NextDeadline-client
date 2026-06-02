@@ -1,0 +1,250 @@
+.assignment-details-page {
+  max-width: 1100px;
+}
+
+.assignment-back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  border: none;
+  background: transparent;
+  padding: 0;
+  margin-bottom: 1.25rem;
+  font-size: 0.9375rem;
+  font-weight: var(--weight-label);
+  color: #374151;
+  cursor: pointer;
+  font-family: inherit;
+  transition: color 0.15s ease;
+}
+
+.assignment-back-btn:hover {
+  color: #4f46e5;
+}
+
+.assignment-details-header {
+  margin-bottom: 1.5rem;
+}
+
+.assignment-title-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.5rem;
+}
+
+.assignment-title-main {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  min-width: 0;
+  flex: 1;
+}
+
+.assignment-title-dot {
+  width: 12px;
+  height: 12px;
+  flex-shrink: 0;
+  margin-top: 0.35rem;
+}
+
+.assignment-details-title {
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-weight: var(--weight-display);
+  color: #111827;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.assignment-header-badges {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  flex-shrink: 0;
+  padding-top: 0.25rem;
+}
+
+.assignment-overdue-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 5px 14px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #fff;
+  background: #ef4444;
+  border: none;
+}
+
+.assignment-details-subtitle {
+  font-size: 0.9375rem;
+  color: var(--text-secondary);
+  margin: 0;
+  padding-left: 1.375rem;
+}
+
+.assignment-details-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(280px, 1fr);
+  gap: 1.25rem;
+  align-items: start;
+}
+
+.assignment-description-card,
+.assignment-status-card,
+.assignment-details-info-card,
+.assignment-actions-card {
+  padding: 1.5rem;
+}
+
+.assignment-section-title {
+  font-size: 1rem;
+  font-weight: var(--weight-heading);
+  color: var(--text-primary);
+  margin: 0 0 1rem;
+}
+
+.assignment-description-text {
+  font-size: 0.9375rem;
+  line-height: 1.65;
+  color: #374151;
+  margin: 0;
+  white-space: pre-wrap;
+}
+
+.assignment-details-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.assignment-status-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+}
+
+.assignment-status-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border-radius: 0.75rem;
+  border: 1px solid var(--border-color);
+  background: #fff;
+  color: #374151;
+  font-size: 0.9375rem;
+  font-weight: var(--weight-label);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  font-family: inherit;
+}
+
+.assignment-status-btn:hover {
+  border-color: #c7d2fe;
+  background: #f8faff;
+}
+
+.assignment-status-btn.active {
+  border-color: transparent;
+  background: var(--active-gradient);
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.25);
+}
+
+.assignment-detail-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.assignment-detail-row {
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+}
+
+.assignment-detail-icon {
+  color: #9ca3af;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.assignment-detail-label {
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
+  margin-bottom: 0.25rem;
+}
+
+.assignment-detail-value {
+  font-size: 0.9375rem;
+  font-weight: var(--weight-heading);
+  color: var(--text-primary);
+}
+
+.assignment-points-block {
+  padding-top: 1rem;
+  border-top: 1px solid var(--border-color);
+}
+
+.assignment-points-value {
+  font-size: 2rem;
+  font-weight: var(--weight-display);
+  color: var(--text-primary);
+  line-height: 1.1;
+  margin-top: 0.25rem;
+}
+
+.assignment-instructor-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+}
+
+.assignment-list-link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+
+.assignment-list-link:hover .assignment-list-card {
+  background: var(--hover-bg);
+  border-color: #d1d5db;
+}
+
+.assignment-list-card {
+  margin-bottom: 0.625rem;
+  transition: background 0.15s ease, border-color 0.15s ease;
+  cursor: pointer;
+}
+
+@media (max-width: 900px) {
+  .assignment-details-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .assignment-header-badges {
+    margin-left: 0;
+    width: 100%;
+  }
+
+  .assignment-details-subtitle {
+    padding-left: 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .assignment-title-main {
+    align-items: flex-start;
+  }
+
+  .assignment-header-badges {
+    width: 100%;
+  }
+}

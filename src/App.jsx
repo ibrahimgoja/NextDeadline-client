@@ -12,6 +12,8 @@ import SemesterDetails from './pages/student/SemesterDetails';
 import Calendar from './pages/student/Calendar';
 import KanbanBoard from './pages/student/KanbanBoard';
 import StudentSettings from './pages/student/StudentSettings';
+import CourseDetails from './pages/student/CourseDetails';
+import AssignmentDetails from './pages/student/AssignmentDetails';
 import Courses from './pages/instructor/Courses';
 
 import './css/Reset.css';
@@ -73,6 +75,18 @@ function App() {
               )
             }
           />
+          <Route
+            path="courses"
+            element={
+              user?.role === 'instructor' ? (
+                <Courses user={user} onNotify={onNotify} />
+              ) : (
+                <Navigate to="/dashboard" replace />
+              )
+            }
+          />
+          <Route path="courses/:courseKey" element={<CourseDetails user={user} onNotify={onNotify} />} />
+          <Route path="assignments/:id" element={<AssignmentDetails user={user} onNotify={onNotify} />} />
           <Route path="calendar" element={<Calendar user={user} />} />
           <Route
             path="kanban"
@@ -85,16 +99,6 @@ function App() {
             }
           />
           <Route path="settings" element={<StudentSettings user={user} onNotify={onNotify} />} />
-          <Route
-            path="courses"
-            element={
-              user?.role === 'instructor' ? (
-                <Courses user={user} onNotify={onNotify} />
-              ) : (
-                <Navigate to="/dashboard" replace />
-              )
-            }
-          />
           <Route path="*" element={<Navigate to="/dashboard" replace />} />
         </Route>
       </Routes>

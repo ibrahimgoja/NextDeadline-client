@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
 
+/* Figma Make — Student Assignment Tracker tokens */
 :root {
   --sidebar-width: 260px;
   --purple-start: #4f46e5;
@@ -13,6 +14,21 @@
   --page-gradient: linear-gradient(135deg, #eef2ff 0%, #ffffff 45%, #faf5ff 100%);
   --shell-gradient: linear-gradient(135deg, #f9fafb 0%, #eef2ff 100%);
 
+  --bs-body-font-family: 'Plus Jakarta Sans', sans-serif;
+  --bs-body-bg: #fafbff;
+  --bs-body-color: #1a1a2e;
+  --bs-primary: #6366f1;
+  --bs-primary-rgb: 99, 102, 241;
+  --bs-secondary: #f0f4ff;
+  --bs-secondary-rgb: 240, 244, 255;
+  --bs-border-color: #e5e7eb;
+  --bs-border-radius: 1rem;
+  --bs-border-radius-lg: 1rem;
+  --bs-border-radius-sm: 0.625rem;
+  --bs-link-color: #4f46e5;
+  --bs-link-hover-color: #4338ca;
+
+  /* Typography — match Figma weight hierarchy */
   --weight-display: 700;
   --weight-heading: 600;
   --weight-label: 500;
@@ -40,6 +56,36 @@ body {
   background: var(--page-gradient);
 }
 
+/* —— Bootstrap themed to match Figma —— */
+.btn-primary {
+  --bs-btn-bg: #6366f1;
+  --bs-btn-border-color: #6366f1;
+  --bs-btn-hover-bg: #4f46e5;
+  --bs-btn-hover-border-color: #4f46e5;
+  --bs-btn-active-bg: #4338ca;
+  --bs-btn-active-border-color: #4338ca;
+  font-weight: var(--weight-heading);
+  border-radius: 0.75rem;
+  padding: 0.5rem 1.125rem;
+}
+
+.btn-outline-primary {
+  --bs-btn-color: #4f46e5;
+  --bs-btn-border-color: #c7d2fe;
+  --bs-btn-hover-bg: #f0f4ff;
+  --bs-btn-hover-border-color: #6366f1;
+  --bs-btn-hover-color: #4f46e5;
+  font-weight: var(--weight-label);
+  border-radius: 0.75rem;
+}
+
+.btn-ghost,
+.btn-link.nd-ghost {
+  color: #374151;
+  font-weight: var(--weight-label);
+  text-decoration: none;
+}
+
 .nd-btn-primary {
   background: var(--active-gradient);
   border: none;
@@ -49,51 +95,61 @@ body {
   padding: 0.5rem 1.125rem;
   box-shadow: 0 4px 14px rgba(79, 70, 229, 0.25);
 }
-
 .nd-btn-primary:hover {
   color: #fff;
   filter: brightness(1.05);
+  box-shadow: 0 6px 18px rgba(79, 70, 229, 0.35);
 }
 
-.course-chip {
-  display: inline-flex;
-  padding: 2px 8px;
-  border-radius: 6px;
-  font-size: 0.75rem;
-  font-weight: var(--weight-label);
+.card.nd-panel,
+.nd-panel {
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(229, 231, 235, 0.9) !important;
+  border-radius: 1rem !important;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
 }
 
-.status-badge {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 5px 14px;
-  border-radius: 99px;
-  border: 1.5px solid;
-  font-size: 13px;
-  font-weight: var(--weight-label);
-  white-space: nowrap;
-  flex-shrink: 0;
-  line-height: 1.2;
+.form-control,
+.form-select {
+  border-radius: 0.75rem;
+  border-color: var(--border-color);
+  padding: 0.5rem 0.75rem;
+}
+.form-control:focus,
+.form-select:focus {
+  border-color: #6366f1;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+}
+
+.modal-content {
+  border: none;
+  border-radius: 1rem;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+}
+.modal-header {
+  border-bottom: 1px solid var(--border-color);
+}
+.modal-footer {
+  border-top: 1px solid var(--border-color);
+}
+
+.progress {
+  height: 8px;
+  background: rgba(99, 102, 241, 0.12);
+  border-radius: 999px;
+}
+.progress-bar {
+  background: var(--active-gradient);
+  border-radius: 999px;
+}
+
+.badge.nd-badge-outline {
+  border: 1.5px solid currentColor;
   background: transparent;
-}
-
-.status-badge.status-completed {
-  color: #16a34a;
-  border-color: #16a34a;
-  background: rgba(22, 163, 74, 0.08);
-}
-
-.status-badge.status-progress {
-  color: #4f46e5;
-  border-color: #4f46e5;
-  background: rgba(79, 70, 229, 0.08);
-}
-
-.status-badge.status-todo {
-  color: #6b7280;
-  border-color: #d1d5db;
-  background: rgba(107, 114, 128, 0.08);
+  font-weight: var(--weight-label);
+  border-radius: 999px;
+  padding: 0.25rem 0.65rem;
 }
 
 /* —— Shared page layout (from Figma app screens) —— */
@@ -141,7 +197,6 @@ body {
   cursor: pointer;
   color: #4b5563;
 }
-
 .back-btn:hover {
   border-color: var(--purple-start);
   color: var(--purple-start);
@@ -151,6 +206,16 @@ body {
   display: grid;
   gap: 1.125rem;
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+}
+.grid-4 {
+  display: grid;
+  gap: 1.125rem;
+  grid-template-columns: repeat(4, 1fr);
+}
+.grid-2 {
+  display: grid;
+  gap: 1.125rem;
+  grid-template-columns: repeat(2, 1fr);
 }
 
 .page-card,
@@ -162,8 +227,34 @@ body {
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
 }
 
+.page-card-header {
+  padding: 1.125rem 1.25rem 0;
+}
+
 .page-card-body {
   padding: 1.125rem 1.25rem;
+}
+
+.page-card-title {
+  font-size: 1rem;
+  font-weight: var(--weight-heading);
+  color: var(--text-primary);
+}
+
+.list-item-title {
+  font-weight: var(--weight-heading);
+  color: var(--text-primary);
+}
+
+.view-details-link {
+  font-size: 13px;
+  font-weight: var(--weight-label);
+  color: #4f46e5;
+  align-self: center;
+}
+
+.task-title {
+  font-weight: var(--weight-heading);
 }
 
 .empty-state {
@@ -171,12 +262,10 @@ body {
   padding: 2.5rem 1.25rem;
   color: var(--text-secondary);
 }
-
 .empty-state p {
   margin-top: 0.5rem;
   font-size: 0.875rem;
 }
-
 .empty-icon {
   font-size: 2.25rem;
   margin-bottom: 0.625rem;
@@ -189,20 +278,256 @@ body {
   flex-shrink: 0;
 }
 
+.course-chip {
+  display: inline-flex;
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: var(--weight-label);
+}
+
+.list-item {
+  display: block;
+  padding: 1rem;
+  border: 1px solid var(--border-color);
+  border-radius: 0.75rem;
+  text-decoration: none;
+  color: inherit;
+  background: #fff;
+  transition: background 0.15s ease;
+}
+.list-item:hover {
+  background: #f9fafb;
+}
+
+.color-picker {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.color-swatch {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  cursor: pointer;
+}
+.color-swatch.selected {
+  border-color: #111827;
+  box-shadow: 0 0 0 2px #fff, 0 0 0 4px #111827;
+}
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px 14px;
+  border-radius: 99px;
+  border: 1.5px solid;
+  font-size: 13px;
+  font-weight: var(--weight-label);
+  white-space: nowrap;
+  flex-shrink: 0;
+  line-height: 1.2;
+  background: transparent;
+}
+
+.status-badge.status-completed {
+  color: #16a34a;
+  border-color: #16a34a;
+  background: rgba(22, 163, 74, 0.08);
+}
+
+.status-badge.status-progress {
+  color: #4f46e5;
+  border-color: #4f46e5;
+  background: rgba(79, 70, 229, 0.08);
+}
+
+.status-badge.status-todo {
+  color: #6b7280;
+  border-color: #d1d5db;
+  background: rgba(107, 114, 128, 0.08);
+}
+
+.tab-list {
+  display: inline-flex;
+  background: #f3f4f6;
+  border-radius: 0.75rem;
+  padding: 4px;
+  gap: 4px;
+  margin-bottom: 1rem;
+}
+.tab-btn {
+  border: none;
+  background: transparent;
+  padding: 8px 16px;
+  border-radius: 0.625rem;
+  font-size: 14px;
+  font-weight: var(--weight-label);
+  color: #6b7280;
+  cursor: pointer;
+}
+.tab-btn.active {
+  background: #fff;
+  color: var(--text-primary);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.task-row {
+  display: flex;
+  gap: 12px;
+  padding: 14px;
+  border: 1px solid var(--border-color);
+  border-radius: 0.75rem;
+  margin-bottom: 10px;
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.kanban-board {
+  display: flex;
+  gap: 1.125rem;
+  overflow-x: auto;
+  padding-bottom: 1rem;
+  align-items: flex-start;
+}
+.kanban-col { flex: 1; min-width: 260px; }
+.kanban-drop-area {
+  min-height: 180px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.kanban-empty {
+  text-align: center;
+  padding: 22px;
+  border: 2px dashed #d1d5db;
+  border-radius: 0.625rem;
+  font-size: 13px;
+  color: #9ca3af;
+}
+.kanban-empty.drop-active {
+  border-color: #60a5fa;
+  color: #3b82f6;
+  background: #eff6ff;
+}
+.kanban-card-item {
+  border-left: 4px solid;
+  padding: 12px;
+  border-radius: 0.75rem;
+  border: 1px solid var(--border-color);
+  border-left-width: 4px;
+  background: #fff;
+  cursor: grab;
+}
+.kanban-card-item.dragging { opacity: 0.5; }
+.drag-handle { color: #9ca3af; }
+
+.cal-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  border: 1px solid var(--border-color);
+  border-radius: 0.75rem;
+  overflow: hidden;
+}
+.cal-head-cell {
+  background: #f3f4f6;
+  padding: 10px;
+  text-align: center;
+  font-size: 12px;
+  font-weight: var(--weight-heading);
+  border-right: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border-color);
+}
+.cal-head-cell:last-child { border-right: none; }
+.cal-day {
+  min-height: 110px;
+  padding: 8px;
+  border-right: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border-color);
+  background: #fff;
+}
+.cal-day:nth-child(7n) { border-right: none; }
+.cal-day.other-month { background: #f9fafb; }
+.cal-day.today {
+  background: #eff6ff;
+  box-shadow: inset 0 0 0 2px #3b82f6;
+}
+.cal-day-num {
+  font-size: 12px;
+  font-weight: var(--weight-heading);
+  margin-bottom: 4px;
+}
+.cal-event {
+  display: block;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 11px;
+  color: #fff;
+  font-weight: var(--weight-label);
+  margin-bottom: 2px;
+  text-decoration: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.cal-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-bottom: 12px;
+  font-size: 13px;
+}
+.cal-legend-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+}
+
+.grades-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+.grades-table th,
+.grades-table td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid var(--border-color);
+}
+.grades-table th {
+  font-weight: var(--weight-heading);
+  color: var(--text-primary);
+  background: #f9fafb;
+}
+
+.app-toast {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 2000;
+  padding: 12px 18px;
+  border-radius: 0.625rem;
+  font-size: 14px;
+  font-weight: var(--weight-heading);
+  color: white;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+}
+.app-toast-success { background: #22c55e; }
+.app-toast-error { background: #ef4444; }
+
+@media (max-width: 1024px) {
+  .grid-4 { grid-template-columns: repeat(2, 1fr); }
+  .grid-2 { grid-template-columns: 1fr; }
+}
+
 @media (max-width: 768px) {
-  .main-content {
-    margin-left: 0;
-    width: 100%;
-    padding: 1.25rem;
-    padding-top: 4.5rem;
-  }
-
-  .page {
-    padding: 1rem;
-    padding-top: 0;
-  }
-
-  .grid-auto {
-    grid-template-columns: 1fr;
-  }
+  .page { padding: 1rem; padding-top: 4.25rem; }
+  .main-content { margin-left: 0; width: 100%; }
+  .grid-4 { grid-template-columns: 1fr; }
+  .grid-auto { grid-template-columns: 1fr; }
+  .kanban-board { flex-direction: column; }
+  .kanban-col { min-width: 100%; }
+  .cal-grid { font-size: 11px; }
+  .cal-day { min-height: 72px; }
 }
