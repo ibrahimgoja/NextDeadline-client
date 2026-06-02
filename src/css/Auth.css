@@ -1,8 +1,3 @@
-:root {
-  --weight-display: 700;
-  --weight-label: 500;
-}
-
 .auth-page {
   min-height: 100vh;
   display: flex;
@@ -77,6 +72,14 @@
   padding: 1.25rem 2rem 2rem;
 }
 
+.auth-demo-alert {
+  font-size: 0.85rem;
+  background: #f0f4ff;
+  border: 1px solid #c7d2fe;
+  color: #374151;
+  border-radius: 0.75rem;
+}
+
 .role-option {
   display: flex;
   align-items: flex-start;
@@ -98,30 +101,16 @@
   background: #f0f4ff;
 }
 
-.role-option-title {
-  font-weight: var(--weight-label);
-}
-
 .auth-link {
   color: #2563eb;
   font-weight: var(--weight-label);
   text-decoration: none;
 }
 
+.role-option-title {
+  font-weight: var(--weight-label);
+}
+
 .auth-link:hover {
   text-decoration: underline;
-}
-
-.nd-btn-primary {
-  background: linear-gradient(135deg, #4f46e5 0%, #9333ea 100%);
-  border: none;
-  color: white;
-  font-weight: 600;
-  padding: 0.625rem 1.25rem;
-  border-radius: 0.5rem;
-}
-
-.nd-btn-primary:hover {
-  background: linear-gradient(135deg, #4338ca 0%, #7e22ce 100%);
-  color: white;
 }

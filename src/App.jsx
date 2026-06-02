@@ -6,12 +6,11 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 
 import StudentDashboard from './pages/student/StudentDashboard';
+import InstructorDashboard from './pages/instructor/InstructorDashboard';
 import Semesters from './pages/student/Semesters';
 import Calendar from './pages/student/Calendar';
 import KanbanBoard from './pages/student/KanbanBoard';
 import StudentSettings from './pages/student/StudentSettings';
-
-import InstructorDashboard from './pages/instructor/InstructorDashboard';
 import Courses from './pages/instructor/Courses';
 
 import './css/Reset.css';
@@ -20,13 +19,20 @@ import './App.css';
 function App() {
   const user = null;
   const onLogout = () => {};
+  const onNotify = () => {};
 
   return (
     <Router>
       <Routes>
         <Route path="/" element={<Navigate to="/dashboard" replace />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
+        <Route
+          path="/login"
+          element={user ? <Navigate to="/dashboard" replace /> : <Login onLogin={() => {}} />}
+        />
+        <Route
+          path="/register"
+          element={user ? <Navigate to="/dashboard" replace /> : <Register onLogin={() => {}} />}
+        />
         <Route
           element={
             user ? (
@@ -40,30 +46,42 @@ function App() {
             path="dashboard"
             element={
               user?.role === 'instructor' ? (
-                <InstructorDashboard />
+                <InstructorDashboard user={user} />
               ) : (
-                <StudentDashboard UserName={user?.name} />
+                <StudentDashboard user={user} />
               )
             }
           />
           <Route
             path="semesters"
             element={
-              user?.role === 'student' ? <Semesters /> : <Navigate to="/dashboard" replace />
+              user?.role === 'student' ? (
+                <Semesters user={user} onNotify={onNotify} />
+              ) : (
+                <Navigate to="/dashboard" replace />
+              )
             }
           />
-          <Route path="calendar" element={<Calendar />} />
+          <Route path="calendar" element={<Calendar user={user} />} />
           <Route
             path="kanban"
             element={
-              user?.role === 'student' ? <KanbanBoard /> : <Navigate to="/dashboard" replace />
+              user?.role === 'student' ? (
+                <KanbanBoard user={user} onNotify={onNotify} />
+              ) : (
+                <Navigate to="/dashboard" replace />
+              )
             }
           />
-          <Route path="settings" element={<StudentSettings />} />
+          <Route path="settings" element={<StudentSettings user={user} onNotify={onNotify} />} />
           <Route
             path="courses"
             element={
-              user?.role === 'instructor' ? <Courses /> : <Navigate to="/dashboard" replace />
+              user?.role === 'instructor' ? (
+                <Courses user={user} onNotify={onNotify} />
+              ) : (
+                <Navigate to="/dashboard" replace />
+              )
             }
           />
           <Route path="*" element={<Navigate to="/dashboard" replace />} />
