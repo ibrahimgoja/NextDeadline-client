@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button, Modal, Form } from 'react-bootstrap';
 import { matchId } from '../../components/dateUtils';
 import InstructorCourseCard from '../../components/InstructorCourseCard';
@@ -8,23 +8,49 @@ const COLORS = ['#3B82F6', '#8B5CF6', '#EC4899', '#F59E0B', '#10B981', '#EF4444'
 
 export default function Courses({ user, onNotify }) {
   const [courses, setCourses] = useState([]);
-  const [enrollments] = useState([]);
-  const [assignments] = useState([]);
+  const [enrollments, setEnrollments] = useState([]);
+  const [assignments, setAssignments] = useState([]);
   const [open, setOpen] = useState(false);
   const [name, setName] = useState('');
   const [code, setCode] = useState('');
   const [description, setDescription] = useState('');
   const [color, setColor] = useState(COLORS[0]);
 
-  const addCourse = (course) => {
-    setCourses((prev) => [...prev, { ...course, id: Date.now(), instructorId: user?.id }]);
+  const fetchData = async () => {
+    const res = await fetch('/api/data', {
+      headers: { 'X-User-Id': String(user.id) },
+    });
+    const data = await res.json();
+    setCourses(data.courses);
+    setEnrollments(data.enrollments);
+    setAssignments(data.assignments);
   };
 
-  const deleteCourse = (id) => {
-    setCourses((prev) => prev.filter((c) => !matchId(c.id, id)));
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const addCourse = async (course) => {
+    await fetch('/api/courses', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-User-Id': String(user.id),
+      },
+      body: JSON.stringify(course),
+    });
+    fetchData();
   };
 
-  const myCourses = courses.filter((c) => matchId(c.instructorId, user?.id));
+  const deleteCourse = async (id) => {
+    await fetch(`/api/courses/${id}`, {
+      method: 'DELETE',
+      headers: { 'X-User-Id': String(user.id) },
+    });
+    fetchData();
+  };
+
+  const myCourses = courses.filter((c) => matchId(c.instructorId, user.id));
 
   const resetForm = () => { setName(''); setCode(''); setDescription(''); setColor(COLORS[0]); };
 

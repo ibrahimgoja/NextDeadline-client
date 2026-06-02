@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from 'react-bootstrap';
 import {
@@ -7,16 +7,31 @@ import {
 } from '../../components/dateUtils';
 
 export default function Calendar({ user }) {
-  const [assignments] = useState([]);
-  const [courses] = useState([]);
-  const [enrollments] = useState([]);
-  const [assignmentProgress] = useState([]);
+  const [assignments, setAssignments] = useState([]);
+  const [courses, setCourses] = useState([]);
+  const [enrollments, setEnrollments] = useState([]);
+  const [assignmentProgress, setAssignmentProgress] = useState([]);
   const [currentMonth, setCurrentMonth] = useState(new Date());
 
+  const fetchData = async () => {
+    const res = await fetch('/api/data', {
+      headers: { 'X-User-Id': String(user.id) },
+    });
+    const data = await res.json();
+    setAssignments(data.assignments);
+    setCourses(data.courses);
+    setEnrollments(data.enrollments);
+    setAssignmentProgress(data.assignmentProgress);
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   const enrolled =
-    user?.role === 'student'
-      ? enrollments.filter((e) => matchId(e.studentId, user?.id)).map((e) => courses.find((c) => matchId(c.id, e.courseId))).filter(Boolean)
-      : courses.filter((c) => matchId(c.instructorId, user?.id));
+    user.role === 'student'
+      ? enrollments.filter((e) => matchId(e.studentId, user.id)).map((e) => courses.find((c) => matchId(c.id, e.courseId))).filter(Boolean)
+      : courses.filter((c) => matchId(c.instructorId, user.id));
   const courseIds = enrolled.map((c) => c.id);
 
   const assignmentsByDate = {};
@@ -32,7 +47,7 @@ export default function Calendar({ user }) {
   });
 
   const getStatus = (a, date) => {
-    const prog = assignmentProgress.find((p) => matchId(p.assignmentId, a.id) && matchId(p.studentId, user?.id));
+    const prog = assignmentProgress.find((p) => matchId(p.assignmentId, a.id) && matchId(p.studentId, user.id));
     const now = new Date();
     if (prog?.status === 'Completed') return 'completed';
     if (isBefore(date, now)) return 'overdue';

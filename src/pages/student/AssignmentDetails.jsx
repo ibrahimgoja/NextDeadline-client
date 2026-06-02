@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Button, Modal, Form } from 'react-bootstrap';
 import { ArrowLeft, Calendar, Clock, CheckCircle2 } from 'lucide-react';
@@ -11,7 +11,7 @@ const STATUSES = ['To Do', 'In Progress', 'Completed'];
 export default function AssignmentDetails({ user, onNotify }) {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [courses] = useState([]);
+  const [courses, setCourses] = useState([]);
   const [assignments, setAssignments] = useState([]);
   const [assignmentProgress, setAssignmentProgress] = useState([]);
   const [editOpen, setEditOpen] = useState(false);
@@ -20,36 +20,52 @@ export default function AssignmentDetails({ user, onNotify }) {
   const [aDue, setADue] = useState('');
   const [aPoints, setAPoints] = useState('');
 
-  const updateAssignmentProgress = (assignmentId, status) => {
-    setAssignmentProgress((prev) => {
-      const existing = prev.find(
-        (ap) => matchId(ap.assignmentId, assignmentId) && matchId(ap.studentId, user?.id),
-      );
-      if (existing) {
-        return prev.map((ap) =>
-          matchId(ap.assignmentId, assignmentId) && matchId(ap.studentId, user?.id)
-            ? { ...ap, status }
-            : ap,
-        );
-      }
-      return [...prev, { assignmentId, studentId: user?.id, status }];
+  const fetchData = async () => {
+    const res = await fetch('/api/data', {
+      headers: { 'X-User-Id': String(user.id) },
     });
+    const data = await res.json();
+    setCourses(data.courses);
+    setAssignments(data.assignments);
+    setAssignmentProgress(data.assignmentProgress);
   };
 
-  const updateAssignment = (assignmentId, updates) => {
-    setAssignments((prev) => prev.map((a) => (matchId(a.id, assignmentId) ? { ...a, ...updates } : a)));
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const updateAssignmentProgress = async (assignmentId, status) => {
+    await fetch(`/api/progress/${assignmentId}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json', 'X-User-Id': String(user.id) },
+      body: JSON.stringify({ status }),
+    });
+    fetchData();
   };
 
-  const deleteAssignment = (assignmentId) => {
-    setAssignments((prev) => prev.filter((a) => !matchId(a.id, assignmentId)));
+  const updateAssignment = async (assignmentId, updates) => {
+    await fetch(`/api/assignments/${assignmentId}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json', 'X-User-Id': String(user.id) },
+      body: JSON.stringify(updates),
+    });
+    fetchData();
+  };
+
+  const deleteAssignment = async (assignmentId) => {
+    await fetch(`/api/assignments/${assignmentId}`, {
+      method: 'DELETE',
+      headers: { 'X-User-Id': String(user.id) },
+    });
+    fetchData();
   };
 
   const assignment = assignments.find((a) => matchId(a.id, id));
   const course = assignment ? courses.find((c) => matchId(c.id, assignment.courseId)) : null;
-  const isInstructor = user?.role === 'instructor' && course && matchId(course.instructorId, user?.id);
+  const isInstructor = user.role === 'instructor' && course && matchId(course.instructorId, user.id);
 
   const progress = assignmentProgress.find(
-    (ap) => matchId(ap.assignmentId, assignment?.id) && matchId(ap.studentId, user?.id),
+    (ap) => matchId(ap.assignmentId, assignment?.id) && matchId(ap.studentId, user.id),
   );
   const status = progress?.status || 'To Do';
 
@@ -73,9 +89,9 @@ export default function AssignmentDetails({ user, onNotify }) {
     setEditOpen(true);
   };
 
-  const handleEditSubmit = (e) => {
+  const handleEditSubmit = async (e) => {
     e.preventDefault();
-    updateAssignment(assignment.id, {
+    await updateAssignment(assignment.id, {
       title: aTitle,
       description: aDesc,
       dueDate: new Date(aDue).toISOString(),
@@ -86,15 +102,15 @@ export default function AssignmentDetails({ user, onNotify }) {
     onNotify('Assignment updated');
   };
 
-  const handleStatusChange = (nextStatus) => {
+  const handleStatusChange = async (nextStatus) => {
     if (nextStatus === status) return;
-    updateAssignmentProgress(assignment.id, nextStatus);
+    await updateAssignmentProgress(assignment.id, nextStatus);
     onNotify('Status updated');
   };
 
-  const handleDelete = () => {
+  const handleDelete = async () => {
     if (!confirm('Delete this assignment?')) return;
-    deleteAssignment(assignment.id);
+    await deleteAssignment(assignment.id);
     onNotify('Assignment deleted');
     navigate(`/courses/${course.id}`);
   };

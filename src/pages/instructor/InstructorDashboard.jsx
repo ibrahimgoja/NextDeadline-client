@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import InstructorStatCards from '../../components/InstructorStatCards';
 import InstructorUpcomingDeadlines from '../../components/InstructorUpcomingDeadlines';
 import InstructorRecentAssignments from '../../components/InstructorRecentAssignments';
@@ -7,13 +7,28 @@ import { isAfter, isBefore, addDays, matchId } from '../../components/dateUtils'
 import '../../css/StudentDashboard.css';
 
 export default function InstructorDashboard({ user }) {
-  const [courses] = useState([]);
-  const [assignments] = useState([]);
-  const [assignmentProgress] = useState([]);
-  const [enrollments] = useState([]);
+  const [courses, setCourses] = useState([]);
+  const [assignments, setAssignments] = useState([]);
+  const [assignmentProgress, setAssignmentProgress] = useState([]);
+  const [enrollments, setEnrollments] = useState([]);
+
+  const fetchData = async () => {
+    const res = await fetch('/api/data', {
+      headers: { 'X-User-Id': String(user.id) },
+    });
+    const data = await res.json();
+    setCourses(data.courses);
+    setAssignments(data.assignments);
+    setAssignmentProgress(data.assignmentProgress);
+    setEnrollments(data.enrollments);
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   const { stats, upcomingDeadlines, recentAssignments, courseStats } = useMemo(() => {
-    const myCourses = courses.filter((c) => matchId(c.instructorId, user?.id));
+    const myCourses = courses.filter((c) => matchId(c.instructorId, user.id));
     const myCourseIds = myCourses.map((c) => c.id);
     const myAssignments = assignments.filter((a) => myCourseIds.includes(a.courseId));
     const now = new Date();
