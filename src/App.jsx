@@ -1,6 +1,9 @@
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom'
 import Header from './components/Header'
 
+import Login from './pages/Login'
+import Register from './pages/Register'
+
 import StudentDashboard from "./pages/student/StudentDashboard"
 import Semesters from "./pages/student/Semesters"
 import Calendar from "./pages/student/Calendar"
@@ -26,28 +29,39 @@ function App() {
   return (
     <>
       <Router>
-        <Header Role={User.Role} UserName={User.Name} UserEmail={User.Email} />
-        <main className='main-content'>
-          <Routes>
-            {User.Role == "Student" ? (
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route
+            path="*"
+            element={
               <>
-                <Route path='/Student/Dashboard' element={<StudentDashboard UserName = {User.Name} />} />
-                <Route path='/Student/Semesters' element={<Semesters />} />
-                <Route path='/Student/Calendar' element={<Calendar />} />
-                <Route path='/Student/KanbanBoard' element={<KanbanBoard />} />
-                <Route path='/Student/Settings' element={<StudentSettings />} />
+                <Header Role={User.Role} UserName={User.Name} UserEmail={User.Email} />
+                <main className='main-content'>
+                  <Routes>
+                    {User.Role == "Student" ? (
+                      <>
+                        <Route path='/Student/Dashboard' element={<StudentDashboard UserName = {User.Name} />} />
+                        <Route path='/Student/Semesters' element={<Semesters />} />
+                        <Route path='/Student/Calendar' element={<Calendar />} />
+                        <Route path='/Student/KanbanBoard' element={<KanbanBoard />} />
+                        <Route path='/Student/Settings' element={<StudentSettings />} />
+                      </>
+                    ) : (
+                      <>
+                        <Route path='/Instructor/Dashboard' element={<InstructorDashBoard />} />
+                        <Route path="/Instructor/Courses" element={<Courses />} />
+                        <Route path="/Instructor/Students" element={<Students />} />
+                        <Route path="/Instructor/Grades" element={<Grades />} />
+                        <Route path="/Instructor/Settings" element={<InstructorSettings />} />
+                      </>
+                    )}
+                  </Routes>
+                </main>
               </>
-            ) : (
-              <>
-                <Route path='/Instructor/Dashboard' element={<InstructorDashBoard />} />
-                <Route path="/Instructor/Courses" element={<Courses />} />
-                <Route path="/Instructor/Students" element={<Students />} />
-                <Route path="/Instructor/Grades" element={<Grades />} />
-                <Route path="/Instructor/Settings" element={<InstructorSettings />} />
-              </>
-            )}
-          </Routes>
-        </main>
+            }
+          />
+        </Routes>
       </Router>
 
 

@@ -1,0 +1,127 @@
+:root {
+  --weight-display: 700;
+  --weight-label: 500;
+}
+
+.auth-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  background: linear-gradient(135deg, #6366f1 0%, #a855f7 50%, #ec4899 100%);
+}
+
+.auth-page-register {
+  background: linear-gradient(135deg, #eff6ff 0%, #f3f4f6 100%);
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 440px;
+  border: none !important;
+  border-radius: 1rem !important;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2) !important;
+  overflow: hidden;
+}
+
+.auth-card-header {
+  text-align: center;
+  padding: 2rem 2rem 0;
+}
+
+.auth-logo {
+  width: 5rem;
+  height: 5rem;
+  margin: 0 auto 1rem;
+  background: linear-gradient(135deg, #4f46e5, #9333ea);
+  border-radius: 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 20px rgba(79, 70, 229, 0.35);
+}
+
+.auth-logo svg {
+  width: 2.75rem;
+  height: 2.75rem;
+  color: white;
+}
+
+.auth-logo-sm {
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+  background: #2563eb;
+}
+
+.auth-logo-sm svg {
+  width: 2.25rem;
+  height: 2.25rem;
+}
+
+.auth-title {
+  font-size: 1.75rem;
+  font-weight: var(--weight-display);
+  color: #111827;
+  margin-bottom: 0.35rem;
+}
+
+.auth-subtitle {
+  font-size: 0.95rem;
+  color: #6b7280;
+  margin-bottom: 0;
+}
+
+.auth-body {
+  padding: 1.25rem 2rem 2rem;
+}
+
+.role-option {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 0.875rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.75rem;
+  cursor: pointer;
+  transition: background 0.15s;
+  margin-bottom: 0.5rem;
+}
+
+.role-option:hover {
+  background: #f9fafb;
+}
+
+.role-option.selected {
+  border-color: #6366f1;
+  background: #f0f4ff;
+}
+
+.role-option-title {
+  font-weight: var(--weight-label);
+}
+
+.auth-link {
+  color: #2563eb;
+  font-weight: var(--weight-label);
+  text-decoration: none;
+}
+
+.auth-link:hover {
+  text-decoration: underline;
+}
+
+.nd-btn-primary {
+  background: linear-gradient(135deg, #4f46e5 0%, #9333ea 100%);
+  border: none;
+  color: white;
+  font-weight: 600;
+  padding: 0.625rem 1.25rem;
+  border-radius: 0.5rem;
+}
+
+.nd-btn-primary:hover {
+  background: linear-gradient(135deg, #4338ca 0%, #7e22ce 100%);
+  color: white;
+}
