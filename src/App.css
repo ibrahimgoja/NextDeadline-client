@@ -55,6 +55,47 @@ body {
   filter: brightness(1.05);
 }
 
+.course-chip {
+  display: inline-flex;
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: var(--weight-label);
+}
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px 14px;
+  border-radius: 99px;
+  border: 1.5px solid;
+  font-size: 13px;
+  font-weight: var(--weight-label);
+  white-space: nowrap;
+  flex-shrink: 0;
+  line-height: 1.2;
+  background: transparent;
+}
+
+.status-badge.status-completed {
+  color: #16a34a;
+  border-color: #16a34a;
+  background: rgba(22, 163, 74, 0.08);
+}
+
+.status-badge.status-progress {
+  color: #4f46e5;
+  border-color: #4f46e5;
+  background: rgba(79, 70, 229, 0.08);
+}
+
+.status-badge.status-todo {
+  color: #6b7280;
+  border-color: #d1d5db;
+  background: rgba(107, 114, 128, 0.08);
+}
+
 @media (max-width: 768px) {
   .main-content {
     margin-left: 0;
