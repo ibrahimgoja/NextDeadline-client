@@ -8,6 +8,7 @@ import Register from './pages/Register';
 import StudentDashboard from './pages/student/StudentDashboard';
 import InstructorDashboard from './pages/instructor/InstructorDashboard';
 import Semesters from './pages/student/Semesters';
+import SemesterDetails from './pages/student/SemesterDetails';
 import Calendar from './pages/student/Calendar';
 import KanbanBoard from './pages/student/KanbanBoard';
 import StudentSettings from './pages/student/StudentSettings';
@@ -57,6 +58,16 @@ function App() {
             element={
               user?.role === 'student' ? (
                 <Semesters user={user} onNotify={onNotify} />
+              ) : (
+                <Navigate to="/dashboard" replace />
+              )
+            }
+          />
+          <Route
+            path="semesters/:id"
+            element={
+              user?.role === 'student' ? (
+                <SemesterDetails user={user} onNotify={onNotify} />
               ) : (
                 <Navigate to="/dashboard" replace />
               )
